@@ -6,14 +6,21 @@ import { Component } from '@angular/core';
   imports: [],
   // templateUrl: './servers.component.html',
   template: `
-    <button class="btn btn-primary" [disabled]="!allowNewServer">
+    <button
+      class="btn btn-primary"
+      [disabled]="allowNewServer"
+      (click)="onCreateServer()"
+    >
       Add Server
     </button>
+    <!-- <p [innerText]="allowNewServer"></p> -->
+    <p>{{ serverCreationStatus }}</p>
   `,
   styleUrl: './servers.component.css',
 })
 export class ServersComponent {
   allowNewServer = false;
+  serverCreationStatus = 'No server was created!';
   constructor() {
     setTimeout(() => {
       this.allowNewServer = true;
@@ -23,4 +30,8 @@ export class ServersComponent {
 
   serverId = 10;
   serverStatus = 'offline';
+
+  onCreateServer() {
+    this.serverCreationStatus = 'Server was created!';
+  }
 }
