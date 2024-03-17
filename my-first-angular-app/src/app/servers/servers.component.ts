@@ -1,17 +1,14 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-servers',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   // templateUrl: './servers.component.html',
   template: `
     <label for="">Server name</label>
-    <input
-      type="text"
-      class="form-control"
-      (input)="onUpdateServerName($event)"
-    />
+    <input type="text" class="form-control" [(ngModel)]="serverName" />
     <p>{{ serverName }}</p>
     <button
       class="btn btn-primary"
@@ -28,7 +25,7 @@ import { Component } from '@angular/core';
 export class ServersComponent {
   allowNewServer = false;
   serverCreationStatus = 'No server was created!';
-  serverName = '';
+  serverName = 'tests';
   constructor() {
     setTimeout(() => {
       this.allowNewServer = true;
