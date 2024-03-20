@@ -20,7 +20,12 @@ import { FormsModule } from '@angular/forms';
     </button>
     <!-- <p [innerText]="allowNewServer"></p> -->
     <!-- 대괄호는 특정 디렉티브(ex. ngStyle)의 일부 속성에 바인딩 하려는 것 -->
-    <p [ngStyle]="{ color: getColor() }">{{ serverStatus }}</p>
+    <p
+      [ngStyle]="{ color: getColor() }"
+      [ngClass]="{ online: serverStatus === 'online' }"
+    >
+      {{ getServerStatus() }}
+    </p>
     <p *ngIf="serverCreated; else noServer">
       Server was created, server name is {{ serverName }}
     </p>
@@ -28,7 +33,14 @@ import { FormsModule } from '@angular/forms';
       <p>No server</p>
     </ng-template>
   `,
-  styleUrl: './servers.component.css',
+  // styleUrl: './servers.component.css',
+  styles: [
+    `
+      .online {
+        color: white;
+      }
+    `,
+  ],
 })
 export class ServersComponent {
   allowNewServer = false;
@@ -51,6 +63,10 @@ export class ServersComponent {
     this.serverCreated = true;
     this.serverCreationStatus =
       'Server was created! Name is +  ' + this.serverName;
+  }
+
+  getServerStatus() {
+    return this.serverStatus;
   }
 
   onUpdateServerName(event: InputEvent) {
