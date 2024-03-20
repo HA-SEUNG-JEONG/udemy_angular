@@ -13,13 +13,14 @@ import { FormsModule } from '@angular/forms';
     <!-- <p>{{ serverName }}</p> -->
     <button
       class="btn btn-primary"
-      [disabled]="!allowNewServer"
+      [disabled]="allowNewServer"
       (click)="onCreateServer()"
     >
       Add Server
     </button>
     <!-- <p [innerText]="allowNewServer"></p> -->
-    <!-- <p>{{ serverCreationStatus }}</p> -->
+    <!-- 대괄호는 특정 디렉티브(ex. ngStyle)의 일부 속성에 바인딩 하려는 것 -->
+    <p [ngStyle]="{ color: getColor() }">{{ serverStatus }}</p>
     <p *ngIf="serverCreated; else noServer">
       Server was created, server name is {{ serverName }}
     </p>
@@ -34,14 +35,16 @@ export class ServersComponent {
   serverCreationStatus = 'No server was created!';
   serverName = 'tests';
   constructor() {
-    setTimeout(() => {
-      this.allowNewServer = true;
-    }, 2000);
-    console.log('constructor');
+    // setTimeout(() => {
+    //   this.allowNewServer = true;
+    // }, 2000);
+    // console.log('constructor');
+    this.serverStatus = Math.random() > 0.5 ? 'online' : 'offline';
   }
 
   serverId = 10;
   serverStatus = 'offline';
+
   serverCreated = false;
 
   onCreateServer() {
@@ -53,5 +56,9 @@ export class ServersComponent {
   onUpdateServerName(event: InputEvent) {
     // console.log(event);
     this.serverName = (<HTMLInputElement>event.target).value;
+  }
+
+  getColor() {
+    return this.serverStatus === 'online' ? 'green' : 'red';
   }
 }
