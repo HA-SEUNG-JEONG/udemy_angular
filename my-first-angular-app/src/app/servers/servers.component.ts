@@ -9,16 +9,19 @@ import { FormsModule } from '@angular/forms';
   template: `
     <label for="">Server name</label>
     <input type="text" class="form-control" [(ngModel)]="serverName" />
-    <p>{{ serverName }}</p>
+    <!-- <p>{{ serverName }}</p> -->
     <button
       class="btn btn-primary"
-      [disabled]="allowNewServer"
+      [disabled]="!allowNewServer"
       (click)="onCreateServer()"
     >
       Add Server
     </button>
     <!-- <p [innerText]="allowNewServer"></p> -->
-    <p>{{ serverCreationStatus }}</p>
+    <!-- <p>{{ serverCreationStatus }}</p> -->
+    <p ngIf="serverCreated">
+      Server was created,server name is {{ serverName }}
+    </p>
   `,
   styleUrl: './servers.component.css',
 })
@@ -35,9 +38,12 @@ export class ServersComponent {
 
   serverId = 10;
   serverStatus = 'offline';
+  serverCreated = false;
 
   onCreateServer() {
-    this.serverCreationStatus = 'Server was created!';
+    this.serverCreated = true;
+    this.serverCreationStatus =
+      'Server was created! Name is +  ' + this.serverName;
   }
 
   onUpdateServerName(event: InputEvent) {
